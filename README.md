@@ -52,7 +52,7 @@ private Set<Car> cars = new HashSet<>();
 Enhanced `RevisionEntity`:
 ```java
 @Entity
-@RevisionEntity(AuditListener.class)
+@RevisionEntity(AuditRevisionListener.class)
 @Table(name = "REVINFO", schema = "audit")
 @AttributeOverrides({
         @AttributeOverride(name = "timestamp", column = @Column(name = "REVTSTMP")),
@@ -61,19 +61,19 @@ Enhanced `RevisionEntity`:
 @Setter
 public class AuditRevisionEntity extends DefaultRevisionEntity {
 
-    @Column(name = "USER_ID", nullable = false)
-    private Long userId;
+    @Column(name = "USERNAME", nullable = false)
+    private String username;
 }
 ```
 
 Enhanced `RevisionListener`: 
 ```java
-public class AuditListener implements RevisionListener {
+public class AuditRevisionListener implements RevisionListener {
 
     @Override
     public void newRevision(Object revisionEntity) {
         AuditRevisionEntity audit = (AuditRevisionEntity) revisionEntity;
-        audit.setUserId(1l);
+        audit.setUsername("admin");
     }
 }
 ```
